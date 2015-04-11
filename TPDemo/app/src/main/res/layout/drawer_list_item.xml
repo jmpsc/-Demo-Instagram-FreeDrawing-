@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:orientation="horizontal">
 
     <ImageView
@@ -13,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:scaleType="centerInside"
-        android:src="@drawable/abc_btn_radio_to_on_mtrl_015" />
+        android:src="@drawable/ic_search_white_18dp" />
 
     <TextView
         android:id="@+id/title"
@@ -23,6 +21,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textColor="@color/white"
+        android:textSize="18sp"
         android:layout_toRightOf="@+id/icon"
         tools:text="ITEM TEXT" />
 
