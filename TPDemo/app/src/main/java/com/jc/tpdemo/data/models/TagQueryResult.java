@@ -8,32 +8,41 @@ import java.util.List;
  * Created by Jorge on 11-04-2015.
  */
 public class TagQueryResult {
-    Pagination pagination;
-    List<Media> data;
+    public Pagination pagination;
+    public List<Media> data;
 
-    private class Pagination {
+    public class Pagination {
         @SerializedName("next_max_id")
-        String nextMaxId;
+        public String nextMaxId;
         @SerializedName("next_url")
-        String nextUrl;
+        public String nextUrl;
     }
 
-    private class Media {
-        @SerializedName("create_time")
-        String createTime;
-        ImagesInfo images;
+    public class Media {
+        @SerializedName("created_time")
+        public String createTime;
+        public ImagesInfo images;
+        public User user;
+
+        public String getUsername() {
+            return user.username;
+        }
+
+        public String getImageURL(){
+            return images.lowResolution.url;
+        }
     }
 
-    private class User{
-        String userName;
+    public class User{
+        public String username;
     }
 
-    private class ImagesInfo {
+    public class ImagesInfo {
         @SerializedName("low_resolution")
-        LowResolutionImage lowResolution;
+        public LowResolutionImage lowResolution;
     }
 
-    private class LowResolutionImage {
-        String url;
+    public class LowResolutionImage {
+        public String url;
     }
 }

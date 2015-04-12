@@ -7,4 +7,10 @@ public class InstagramListItem {
     public String username;
     public String imageURL;
     public String uploadDate;
+
+    public InstagramListItem(String imageURL, String username, String uploadDate) {
+        this.imageURL = imageURL;
+        this.username = username;
+        this.uploadDate = uploadDate;
+    }
 }

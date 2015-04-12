@@ -68,6 +68,12 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        mDrawerList.setItemChecked(0, true);
+        setTitle(mDrawerTitles[0]);
+        mDrawerList.performItemClick(
+                mDrawerList.getAdapter().getView(0, null, null),
+                0,
+                mDrawerList.getAdapter().getItemId(0));
     }
 
     private ArrayList<DrawerEntry> getMenuEntries() {
