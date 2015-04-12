@@ -57,30 +57,31 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
         setSupportActionBar(mToolbar);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
-
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mTitle);
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(mDrawerTitle);
             }
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerList.setItemChecked(0, true);
+        setTitle(mDrawerTitles[0]);
+        mDrawerList.performItemClick(
+                mDrawerList.getAdapter().getView(0, null, null),
+                0,
+                mDrawerList.getAdapter().getItemId(0));
     }
 
     private ArrayList<DrawerEntry> getMenuEntries() {
         ArrayList<DrawerEntry> list = new ArrayList<>();
 
-        list.add(new DrawerEntry("Hash Search", R.drawable.ic_launcher));
-        list.add(new DrawerEntry("Draw", R.drawable.ic_launcher));
-        list.add(new DrawerEntry("Extra", R.drawable.ic_launcher));
+        list.add(new DrawerEntry("Hash Search", R.drawable.ic_search_white_18dp));
+        list.add(new DrawerEntry("Draw", R.drawable.ic_brush_white_18dp));
+        list.add(new DrawerEntry("Extra", R.drawable.ic_3d_rotation_white_18dp));
 
         return list;
     }
@@ -142,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
                 switch (position) {
                     case 0:
                         fragment = new InstagramListFragment();
-                        mToolbar.setVisibility(View.GONE);
+                        //mToolbar.setVisibility(View.GONE);
                         break;
                     case 1:
                         fragment = new FingerPaintingFragment();
