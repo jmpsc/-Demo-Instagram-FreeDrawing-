@@ -18,6 +18,7 @@ public interface InstagramService {
                                   @Query("client_id") String clientId,
                                   @Query("count") int count, Callback<TagQueryResult> cb);
 
+    @GET("/tags/{hashtag}/media/recent")
     void getMediaForHashtagStartingAtId(@Path("hashtag") String hashtag,
                                   @Query("client_id") String clientId,
                                   @Query("count") int count,

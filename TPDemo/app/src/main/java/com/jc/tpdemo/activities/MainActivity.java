@@ -1,5 +1,6 @@
 package com.jc.tpdemo.activities;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -63,6 +65,18 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                InputMethodManager inputMethodManager = (InputMethodManager) MainActivity.this
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(
+                        MainActivity.this.getCurrentFocus().getWindowToken(),
+                        0
+                );
             }
         };
 
