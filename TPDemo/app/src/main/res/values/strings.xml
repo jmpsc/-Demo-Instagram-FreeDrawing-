@@ -12,5 +12,7 @@
     <string name="bitmap_not_exported">Error while exporting message</string>
     <string name="error_communicating_instagram">Error obtaining images. Try again later.</string>
 
+    <string name="instagram_clientid">fffbf01e91954193a6a6698825079a9c</string>
+
 
 </resources>

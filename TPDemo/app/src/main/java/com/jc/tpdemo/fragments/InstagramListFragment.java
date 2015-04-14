@@ -1,6 +1,7 @@
 package com.jc.tpdemo.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ import retrofit.client.Response;
 /**
  * Created by Jorge on 11-04-2015.
  */
-public class InstagramListFragment extends android.app.Fragment {
+public class InstagramListFragment extends Fragment {
 
     private static final String TAG = "tpdemo.instagramlistfragment";
     private static final int NO_MESSAGE = 0;
@@ -57,7 +58,33 @@ public class InstagramListFragment extends android.app.Fragment {
         mProgressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
         mMessageTextView = (TextView) layout.findViewById(R.id.message);
 
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(getQueryTextListener());
+
+        items = new ArrayList<>();
+
+        service = getInstagramService();
+
+        //maybe the end should be notified here?
+        mListView.setOnScrollListener(getScrollListener());
+        mAdapter = new InstagramImagesAdapter(getActivity(), R.layout.instagram_list_item, items);
+        mListView.setAdapter(mAdapter);
+
+        return layout;
+    }
+
+    private EndlessScrollListener getScrollListener() {
+        return new EndlessScrollListener(0) {
+
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                showFooterProgressBar(true);
+                loadMoreItems();
+            }
+        };
+    }
+
+    private SearchView.OnQueryTextListener getQueryTextListener() {
+        return new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 submitSearch(query);
@@ -68,25 +95,7 @@ public class InstagramListFragment extends android.app.Fragment {
             public boolean onQueryTextChange(String newText) {
                 return true;
             }
-        });
-
-        items = new ArrayList<>();
-
-        service = getInstagramService();
-
-        //maybe the end should be notified here?
-        mListView.setOnScrollListener(new EndlessScrollListener(0) {
-
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                showFooterProgressBar(true);
-                loadMoreItems();
-            }
-        });
-        mAdapter = new InstagramImagesAdapter(getActivity(), R.layout.instagram_list_item, items);
-        mListView.setAdapter(mAdapter);
-
-        return layout;
+        };
     }
 
     private InstagramService getInstagramService() {
