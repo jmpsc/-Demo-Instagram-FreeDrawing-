@@ -18,7 +18,9 @@ import javax.inject.Inject;
 public class MainActivity extends Activity {
     private TextView mTextView;
     private ImageView mImageView;
-    @Inject Bus bus;
+
+    @Inject
+    public Bus bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

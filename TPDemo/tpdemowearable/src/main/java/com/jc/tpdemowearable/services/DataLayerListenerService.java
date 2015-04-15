@@ -28,15 +28,14 @@ import javax.inject.Inject;
  * Created by Jorge on 14-04-2015.
  */
 public class DataLayerListenerService extends WearableListenerService {
-
-
     private static final String TAG = "DLLService";
     private static final String IMAGE_URL_KEY = "key_url";
     private static final String TEXT_KEY = "key_text";
-    public static final String LOAD_IMAGE_URI = "/count";
-    public static final String START_ACTIVITY_URI = "/start_activity";
+    public static final String LOAD_IMAGE_URI = "/show";
+    public static final String START_ACTIVITY_PATH = "/start/MainActivity";
 
-    @Inject Bus bus;
+    @Inject
+    public Bus bus;
 
     @Override
     public void onCreate() {
@@ -44,11 +43,14 @@ public class DataLayerListenerService extends WearableListenerService {
         ((TPWearableApplication) getApplication()).getApplicationGraph().inject(this);
     }
 
+    /**
+     * Starts the app's MainActivity if the start activity directive is received
+     * @param messageEvent
+     */
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
-        //If the message event refers to /start_activity
-        if (messageEvent.getPath().equals(START_ACTIVITY_URI)) {
+        if (messageEvent.getPath().equals(START_ACTIVITY_PATH)) {
             Intent startIntent = new Intent(this, MainActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);

@@ -13,6 +13,8 @@
     <string name="error_communicating_instagram">Error obtaining images. Try again later.</string>
 
     <string name="instagram_clientid">fffbf01e91954193a6a6698825079a9c</string>
+    <string name="data_delivered">Look at your smartwatch</string>
+    <string name="data_not_delivered">No smartwatch detected...</string>
 
 
 </resources>
