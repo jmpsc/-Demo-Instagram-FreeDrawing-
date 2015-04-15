@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TPDemo.iml" filepath="$PROJECT_DIR$/TPDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tpdemowearable/tpdemowearable.iml" filepath="$PROJECT_DIR$/tpdemowearable/tpdemowearable.iml" />
     </modules>
   </component>
 </project>
