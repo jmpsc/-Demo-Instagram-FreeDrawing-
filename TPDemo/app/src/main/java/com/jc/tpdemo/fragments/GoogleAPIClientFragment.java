@@ -80,6 +80,14 @@ public abstract class GoogleAPIClientFragment<T> extends Fragment implements
         Wearable.DataApi.addListener(mGoogleApiClient, this);
     }
 
+    /**
+     * Template method, which should be called when data is to be sent to a wearable
+     *
+     * @param t instance which data is to be sent (translated with hook method
+     * {@link #translateToDataMap(Object, com.google.android.gms.wearable.DataMap)}}
+     * @param requestPath path to be sent to the wearables, which identifies the nature of the
+     *                    request
+     */
     protected void sendDataToWearable(T t, String requestPath) {
         if(mGoogleApiClient.isConnected())
             new PutDataAsyncTask(t, requestPath).execute(); //There is a device connected
@@ -91,6 +99,7 @@ public abstract class GoogleAPIClientFragment<T> extends Fragment implements
     /**
      * Hook method responsible for placing {@code t} data into the provided dataMap,
      * which data is then sent through the GoogleAPIClient
+     *
      * @param t
      * @param dataMap
      */
@@ -98,6 +107,7 @@ public abstract class GoogleAPIClientFragment<T> extends Fragment implements
 
     /**
      * Get all the available nodes connected to this device
+     *
      * @return
      */
     private Collection<String> getNodes() {
@@ -141,7 +151,7 @@ public abstract class GoogleAPIClientFragment<T> extends Fragment implements
 
             //Wait synchronously for a response... or for a timeout
             DataApi.DataItemResult result = res.await();
-
+            //Now we have feedback to give to the interested components
             return result.getStatus().isSuccess();
         }
 

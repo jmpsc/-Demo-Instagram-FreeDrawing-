@@ -7,12 +7,12 @@
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/picture"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="@dimen/image_side"
+        android:layout_height="@dimen/image_side"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="@dimen/default_margin"
         android:scaleType="centerInside"
-        app:riv_corner_radius="36dip"
+        app:riv_corner_radius="@dimen/item_round_image_corner"
         app:riv_mutate_background="true"
         app:riv_oval="false"
         app:riv_tile_mode="clamp" />
@@ -20,9 +20,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/margin_item_info"
+        android:layout_marginTop="@dimen/default_margin"
         android:gravity="left|center_vertical"
         android:orientation="vertical">
 
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_regular_plus"
             tools:text="User User" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary_text"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_regular"
             tools:text="dd/mm/yyyy" />
 
     </LinearLayout>

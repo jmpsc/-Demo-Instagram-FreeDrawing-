@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/search_margin"
         android:iconifiedByDefault="false"
         android:queryHint="@string/search"
         android:windowSoftInputMode="stateUnchanged">
@@ -28,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textSize="18sp" />
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:textSize="@dimen/text_regular_plus" />
 
 </RelativeLayout>

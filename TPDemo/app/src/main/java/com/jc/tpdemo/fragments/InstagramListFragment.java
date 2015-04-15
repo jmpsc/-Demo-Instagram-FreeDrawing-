@@ -59,6 +59,7 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Inject the fields with @inject annotation, using Dagger library
         ((TPApplication) getActivity().getApplication()).getApplicationGraph().inject(this);
     }
 
@@ -104,7 +105,12 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
         };
     }
 
-    //
+    /**
+     * Uses the parent class {@link com.jc.tpdemo.fragments.GoogleAPIClientFragment}
+     * template method {@code }
+     *
+     * @param item
+     */
     protected void sendToSmartwatch(InstagramListItem item) {
         sendDataToWearable(item, LOAD_IMAGE_URI);
     }
@@ -146,9 +152,20 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
         };
     }
 
+    /**
+     * Use the Instagram API to fetch images related to the provided query.
+     * The call is asynchronous, with the request being satisfied by the anonymously instantiated
+     * CallBack<TagQueryResult.
+     *
+     * @param query contains the search query string
+     */
     private void submitSearch(String query) {
         nextMaxId = null;
         lastQuery = query;
+
+        /*
+            This logic should not be handled here
+         */
         service.getMediaForHashtag(query, clientId, NUM_ELEMENTS_PER_PAGE, new Callback<TagQueryResult>() {
             @Override
             public void success(TagQueryResult tagQueryResult, Response response) {
@@ -159,25 +176,54 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
             @Override
             public void failure(RetrofitError error) {
                 Log.e(TAG, "Failed to fetch images:" + error.getMessage());
-                showMessage(R.string.error_communicating_instagram);
+                //The error code should be checked and an appropriate message should be displayed
+                if(error.getKind() == RetrofitError.Kind.NETWORK){
+                    Toast.makeText(getActivity(), R.string.no_network_connection, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), R.string.error_communicating_instagram, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
+    /**
+     * Loads more items. This method should only be called after submit search is called at least
+     * once, since it requires information about the last search regarding pagination state, query
+     * and the number of elements per page.
+     */
     private void loadMoreItems() {
-        service.getMediaForHashtagStartingAtId(lastQuery, clientId, NUM_ELEMENTS_PER_PAGE, nextMaxId, new Callback<TagQueryResult>() {
-            @Override
-            public void success(TagQueryResult tagQueryResult, Response response) {
-                nextMaxId = tagQueryResult.pagination.nextMaxId;
-                updateList(InstagramModelUtils.extractImagesFromResult(tagQueryResult));
-            }
+        if(lastQuery == null){
+            throw new IllegalStateException("submitSearch() must be called before calling loadMoreItems()");
+        }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "Failed to fetch images:" + error.getMessage());
-                Toast.makeText(getActivity(), R.string.error_communicating_instagram, Toast.LENGTH_SHORT).show();
-            }
-        });
+        //If nextMaxId is null, it means that the latest api response didn't not bring a value
+        //for nextMaxId, indicating that the last page was reached.
+        if(nextMaxId == null) {
+            Toast.makeText(getActivity(), R.string.no_more_pictures_instagram, Toast.LENGTH_SHORT).show();
+        } else {
+            /*
+            This logic should not be handled here
+            */
+            service.getMediaForHashtagStartingAtId(lastQuery, clientId, NUM_ELEMENTS_PER_PAGE, nextMaxId, new Callback<TagQueryResult>() {
+                @Override
+                public void success(TagQueryResult tagQueryResult, Response response) {
+                    nextMaxId = tagQueryResult.pagination.nextMaxId;
+                    updateList(InstagramModelUtils.extractImagesFromResult(tagQueryResult));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e(TAG, "Failed to fetch images:" + error.getMessage());
+                    //The error code should be checked and an appropriate message should be displayed
+                    if(error.getKind() == RetrofitError.Kind.NETWORK){
+                        Toast.makeText(getActivity(), R.string.no_network_connection, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), R.string.error_communicating_instagram, Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }
     }
 
     /**
@@ -185,8 +231,10 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
      */
     private void showMessage(int resId) {
         if (resId == 0) {
+            mListView.setVisibility(View.VISIBLE);
             mMessageTextView.setVisibility(View.INVISIBLE);
         } else {
+            mListView.setVisibility(View.INVISIBLE);
             mMessageTextView.setVisibility(View.VISIBLE);
             mMessageTextView.setText(resId);
         }
@@ -199,11 +247,16 @@ public class InstagramListFragment extends GoogleAPIClientFragment<InstagramList
      */
     private void displayNewList(List<InstagramListItem> newItems) {
         // Hide the message if being displayed
-        showMessage(NO_MESSAGE);
+        if(newItems.isEmpty()){
+            showMessage(R.string.no_results_instagram);
+        } else {
+            showMessage(NO_MESSAGE);
 
-        mAdapter.clear();
-        mAdapter.addAll(newItems);
-        mAdapter.notifyDataSetChanged();
+            mAdapter.clear();
+            mAdapter.addAll(newItems);
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
     /**

@@ -32,10 +32,8 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private CharSequence mTitle;
     private String[] mDrawerTitles;
     private ArrayList<DrawerEntry> menuEntries;
-    private String  mDrawerTitle;
     private Toolbar mToolbar;
 
     @Override
@@ -100,29 +98,6 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
         return list;
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -157,7 +132,6 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
                 switch (position) {
                     case 0:
                         fragment = new InstagramListFragment();
-                        //mToolbar.setVisibility(View.GONE);
                         break;
                     case 1:
                         fragment = new FingerPaintingFragment();
@@ -185,7 +159,6 @@ public class MainActivity extends ActionBarActivity implements IDrawerManager {
 
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
         getSupportActionBar().setTitle(title);
     }
 
